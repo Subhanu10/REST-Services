@@ -18,9 +18,9 @@ namespace EmailService
         {
 
         }
-        public InbuildEmailSender(string fromaddress, )
+        public InbuildEmailSender(string FromEmail, string Password, string ToEmail, string Subject, string Content )
         {
-            gmailAppPassword = 
+             = 
         }
         public void SendEmail()
         {
