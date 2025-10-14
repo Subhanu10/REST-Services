@@ -14,13 +14,17 @@ namespace EmailService
         string gmailAppPassword = "ggsb tuff qeyz umkp";
         string fromAddress = "subhanuvelusamy@gmail.com";
         string toAddress = "subhanu2719@gmail.com";
-        public InbuildEmailSender()
-        {
-
-        }
+        string subject = "Default ";
+        string content = "Default Content ";
+        
         public InbuildEmailSender(string FromEmail, string Password, string ToEmail, string Subject, string Content )
         {
-             = 
+            fromAddress = FromEmail;
+            gmailAppPassword = Password;
+            toAddress = ToEmail;
+            subject = Subject;
+            content = Content;
+        
         }
         public void SendEmail()
         {
@@ -32,8 +36,8 @@ namespace EmailService
                 {
                     mail.From = new MailAddress(fromAddress);
                     mail.To.Add(toAddress);
-                    mail.Subject = "Test Email from C#";
-                    mail.Body = "<h1>Hello!,</h1><p>This is a test email sentfrom C# using the Game SMTP server.</p> ";
+                    mail.Subject = subject;
+                    mail.Body = content;
                     mail.IsBodyHtml = true;
 
                     using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)) 

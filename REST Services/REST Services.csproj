@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Subhanu10\ConsoleAppExercises\JsonThreadOperation\JsonThreadOperation.csproj" />
     <ProjectReference Include="..\EmailService\EmailService.csproj" />
   </ItemGroup>
 

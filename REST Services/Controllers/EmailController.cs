@@ -32,7 +32,7 @@ namespace REST_Services.Controllers
                 Message.Subject = model.Subject;
                 Message.Content = model.Content;
 
-                InbuildEmailSender obj = new InbuildEmailSender();
+                InbuildEmailSender obj = new InbuildEmailSender(model.FromEmail, model.Password, model.ToEmail, model.Subject, model.Content);
                 obj.SendEmail();
 
 
