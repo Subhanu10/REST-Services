@@ -48,8 +48,10 @@ namespace REST_Services.Controllers
 
         // DELETE api/<JsonController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(long mobilenumber)
         {
+            Information delete = new Information();
+            delete.DeletePatient();
         }
     }
 }
