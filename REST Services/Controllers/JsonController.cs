@@ -14,44 +14,63 @@ namespace REST_Services.Controllers
     public class JsonController : ControllerBase
     {
 
-        private List<Patient> patients = new List<Patient>();
+        private Information patients = new Information();
         // GET: api/<JsonController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public void Get()
         {
-            return new string[] { "value1", "value2" };
+            
+            patients.GetAllPatients();
+           
         }
 
         // GET api/<JsonController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{Patientid}")]
+        public Patient GetById(int Id)
         {
-            var patient = patients.Find()
-            return "value";
+            var Patient = patients.GetPatientById(Id);
+            if (patients == null)
+            {
+                return Patient;
+            }
+            return Patient;
+
+
+
         }
 
         // POST api/<JsonController>
         [HttpPost]
-        public void Create([FromBody] Patient value)
+        public Patient CreatePatient([FromBody] Patient value)
         {
-            value.Id = patients.Count + 1;
-            patients.Add(value);
+            
+            patients.AddPatient(value) ;
+             return value;
         }
 
         // PUT api/<JsonController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Patient Updatepatient)
+        public Patient Update([FromBody] Patient Updatepatient)
         {
-            Information Details = new Information();
-            Details.UpdatePatient();
+            patients.UpdatePatient(Updatepatient);
+            return Updatepatient;
         }
-
         // DELETE api/<JsonController>/5
         [HttpDelete("{id}")]
-        public void Delete(long mobilenumber)
+        public void Delete(int Id)
         {
-            Information delete = new Information();
-            delete.DeletePatient();
+            
+            patients.DeletePatient(Id);
+            
         }
+        [HttpGet("Search/{Keyword}")]
+        public void Search([FromQuery] string search)
+        {
+
+            patients.SearchPatient(search);
+            
+     
+        }
+
     }
 }
