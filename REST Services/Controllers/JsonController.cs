@@ -14,61 +14,124 @@ namespace REST_Services.Controllers
     public class JsonController : ControllerBase
     {
 
-        private Information patients = new Information();
+        private static List<Patient> patients = new List<Patient>();
+
         // GET: api/<JsonController>
         [HttpGet]
-        public void Get()
+        public IActionResult GetPatient()
         {
-            
-            patients.GetAllPatients();
+            try
+            {
+                return Ok(patients);
+            }
+             catch(Exception ex)
+            {
+                throw ex;
+            }
            
         }
 
         // GET api/<JsonController>/5
-        [HttpGet("{Patientid}")]
-        public Patient GetById(int Id)
+        [HttpGet("{Id}")]
+        public IActionResult GetById(int Id)
         {
-            var Patient = patients.GetPatientById(Id);
-            if (patients == null)
+            try
             {
-                return Patient;
+
+                
+                var Data = patients.Find(p=> p.Id == Id);
+                if (Data == null)
+                {
+                    return NotFound();
+                }
+                return Ok(Data);
+
             }
-            return Patient;
+            catch(Exception ex)
+            {
+                throw ex;
 
-
+            }
 
         }
 
         // POST api/<JsonController>
         [HttpPost]
-        public Patient CreatePatient([FromBody] Patient value)
+        public IActionResult CreatePatient([FromBody] Patient value)
         {
-            
-            patients.AddPatient(value) ;
-             return value;
+            try
+            {
+                value.Id = patients.Count + 1;
+                patients.Add(value);
+                return CreatedAtAction(nameof(GetPatient),new { id = value.Id },value);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         // PUT api/<JsonController>/5
-        [HttpPut("{id}")]
-        public Patient Update([FromBody] Patient Updatepatient)
+        [HttpPut("{Id}")]
+        public IActionResult UpdatePatient(int Id,[FromBody] Patient patient)
         {
-            patients.UpdatePatient(Updatepatient);
-            return Updatepatient;
+            try
+            {
+                var exsitingPatient = patients.Find(p => p.Id == Id);
+                if (exsitingPatient == null)
+                {
+                    return NotFound();
+                }
+                
+                    exsitingPatient.Name = patient.Name;
+                    exsitingPatient.MobileNumber = patient.MobileNumber;
+                    exsitingPatient.Email = patient.Email;
+                    exsitingPatient.Location = patient.Location;
+                    exsitingPatient.Address = patient.Address;
+                
+                return Ok(exsitingPatient);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
         // DELETE api/<JsonController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int Id)
+        [HttpDelete("{Id}")]
+        public IActionResult DeletePatient(int Id)
         {
-            
-            patients.DeletePatient(Id);
+            try
+            {
+                var patient = patients.Find(s => s.Id == Id);
+                if(patient == null)
+                {
+                    return NotFound();
+                }
+                patients.Remove(patient);
+                return NoContent();
+                
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
             
         }
-        [HttpGet("Search/{Keyword}")]
-        public void Search([FromQuery] string search)
+        [HttpGet("Search")]
+        public IActionResult SearchPatient([FromQuery] string search)
         {
-
-            patients.SearchPatient(search);
-            
+            try
+            { 
+                var result = patients
+                    .Where(p => p.Name.ToLower().Contains(search.ToLower()) ||
+                    p.MobileNumber.ToString().Contains(search.ToLower()) || 
+                    p.Email.ToLower().Contains(search.ToLower())).ToList();
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
      
         }
 
