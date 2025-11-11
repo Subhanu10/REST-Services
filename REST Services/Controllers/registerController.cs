@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using REST_Services;
+using JsonThreadOperation.Model;
 
 namespace REST_Services.Controllers
 {
@@ -11,12 +13,13 @@ namespace REST_Services.Controllers
     [ApiController]
     public class registerController : ControllerBase
     {
-        private readonly IUserService_userService;
+        private readonly IUserService _userService;
             public UsersController(IUserService userService)
         {
             _userService = userService;
         }
-    [HttpPosr("register")]
+        
+    [HttpPost("register")]
     public IActionResult Register(User user)
         {
             var result = _userService.RegisterUser(user);

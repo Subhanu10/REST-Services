@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JsonThreadOperation.Model;
 
 namespace REST_Services
 {
@@ -28,7 +29,7 @@ namespace REST_Services
                 return new Result { Success = false, Message = "User already exists" };
             }
             _userRepository.CreateUser(user);
-            return new Result { success = true, Message = "User registered successfully" };
+            return new Result { Success = true, Message = "User registered successfully" };
         }
     }
 }
