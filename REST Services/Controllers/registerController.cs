@@ -1,36 +1,29 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using REST_Services;
-using JsonThreadOperation.Model;
+using REST_Services.Models;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace REST_Services.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class registerController : ControllerBase
+    public class RegisterController : ControllerBase
     {
-        private readonly IUserService _userService;
-            public UsersController(IUserService userService)
+
+
+        // POST api/<RegisterController>
+        [HttpPost]
+        public IActionResult Register([FromBody] LoginItems value)
         {
-            _userService = userService;
+            if (value == null)
+                return BadRequest("Invalid data");
+
+            return Ok(new { message = "Registration successful", data = value });
         }
-        
-    [HttpPost("register")]
-    public IActionResult Register(User user)
-        {
-            var result = _userService.RegisterUser(user);
-            if (result.Success)
-            {
-                return Ok(new { message = "User register successfully" });
-            }
-            else
-            {
-                return BadRequest(new { message = result.Message });
-            }
-        }
+
     }
 }
