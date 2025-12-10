@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using REST_Services.Models;
+using JsonThreadOperation.Model;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,11 +12,26 @@ namespace REST_Services.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
 
+    
     public class RegisterController : ControllerBase
     {
+        private static List<Register> register = new List<Register>();
 
+        // GET: api/<JsonController>
+        [HttpGet]
+        public IActionResult ViewRegister()
+        {
+            try
+            {
+                return Ok(register);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
 
         // POST api/<RegisterController>
         [HttpPost]
@@ -23,7 +39,7 @@ namespace REST_Services.Controllers
         {
             if (value == null)
                 return BadRequest("Invalid data");
-
+           
             return Ok(new { message = "Registration successful", data = value });
         }
 
